@@ -12,5 +12,45 @@ The PKI exposes two ports, **8080/tcp** and **8443/tcp**, HTTP and HTTPS, respec
 
 In order for two containers to be able to communicate, they must belong to the same user-defined docker bridge network. In particular, it was decided to allow only client communication to the PKI via the network *access-ejbca-net* and the broker *broker-net* and broker communication with the PKI and clients via the networks *publisher-net* and *subscriber-net*. Any communication between MQTT clients turns out to be segregated at the network level.
 
+## Project directories
+```
+DEMIoT
+├── ca-certs
+│   └── yourCA.pem
+├── compose.yaml
+├── Dockerfile-mosquitto
+├── Dockerfile-publisher
+├── Dockerfile-sidebroker
+├── Dockerfile-subscriber
+├── ejbca
+├── mosquitto
+│   ├── ca-certs
+│   │   └── yourCA.pem
+│   ├── certs
+│   ├── config
+│   │   └── mosquitto.conf
+│   ├── data
+│   ├── keys
+│   └── log
+├── publisher
+│   ├── ca-certs
+│   ├── pkcs10Enroll.sh
+│   ├── publish.sh
+│   ├── req_crt.sh
+│   └── SuperAdmin.p12
+├── sidebroker
+│   ├── pkcs10Enroll.sh
+│   ├── req_crt.sh
+│   └── SuperAdmin.p12
+├── deploy.sh
+└── subscriber
+    ├── ca-certs
+    ├── pkcs10Enroll.sh
+    ├── req_crt.sh
+    ├── subscribe.sh
+    └── SuperAdmin.p12
+```
 ## Deploy
 To create the environment in Docker and run the applications specified in docker compose file, it is only necessary to run the bash script [deploy.sh](deploy.sh).
+
+

@@ -1,0 +1,119 @@
+version: "3.9"
+networks:
+  broker-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.18.0.0/15
+  publishers-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/15
+  subscribers-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.22.0.0/15
+  access-ejbca-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.24.0.0/15
+  backend-ejbca-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.26.0.0/15
+volumes: #here we define global volumes used by multiple services
+  ca-certs: #the volume containing Certification Authority certificate file
+    driver: local
+services:
+  ejbca-database:
+    hostname: ejbca-database
+    container_name: ejbca-database
+    image: "library/mariadb:latest"
+    networks:
+      - backend-ejbca-net
+    environment:
+      - MYSQL_ROOT_PASSWORD=foo123
+      - MYSQL_DATABASE=ejbca
+      - MYSQL_USER=ejbca
+      - MYSQL_PASSWORD=ejbca
+    volumes:
+      - ./ejbca/datadbdir:/var/lib/mysql:rw
+  ejbca-node1:
+    hostname: ejbca-node1
+    container_name: ejbca
+    image: keyfactor/ejbca-ce:latest
+    depends_on:
+      - ejbca-database
+    networks:
+      - access-ejbca-net
+      - backend-ejbca-net
+    environment:
+      - DATABASE_JDBC_URL=jdbc:mariadb://ejbca-database:3306/ejbca?characterEncoding=UTF-8
+      - LOG_LEVEL_APP=INFO
+      - LOG_LEVEL_SERVER=INFO
+      - TLS_SETUP_ENABLED=simple
+    ports:
+      - "80:8080"
+      - "443:8443"
+  sidebroker-service:
+    build:
+      context: .
+      dockerfile: Dockerfile-sidebroker
+    container_name: sidebroker
+    hostname: sidebroker
+    tty: true
+    volumes:
+      - ./mosquitto/certs/:/mosquitto/certs/:rw
+      - ./mosquitto/keys/:/mosquitto/keys/:rw
+    networks:
+      - access-ejbca-net
+  broker-service:
+    build:
+      context: .
+      dockerfile: Dockerfile-mosquitto
+    container_name: broker
+    depends_on:
+      sidebroker-service:
+        condition: service_completed_successfully
+    hostname: broker
+    tty: true
+    ports:
+      - "8883:8883" 
+    volumes:
+      - ./mosquitto/:/mosquitto/:rw
+      - ca-certs:/mosquitto/ca-certs/:rw
+    networks:
+      - broker-net
+      - subscribers-net
+      - publishers-net
+      - access-ejbca-net
+  publisher-service:
+    build:
+      context: .
+      dockerfile: Dockerfile-publisher
+    container_name: publisher
+    hostname: publisher
+    tty: true
+    volumes:
+      - ./publisher/:/publisher/:rw
+      - ca-certs:/publisher/ca-certs/:rw
+    networks:
+      - publishers-net
+      - access-ejbca-net
+  subscriber-service:
+    build:
+      context: .
+      dockerfile: Dockerfile-subscriber
+    container_name: subscriber
+    hostname: subscriber
+    tty: true
+    volumes:
+      - ./subscriber/:/subscriber:rw
+      - ca-certs:/subscriber/ca-certs/:rw
+    networks:
+      - subscribers-net
+      - access-ejbca-net

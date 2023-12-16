@@ -1,0 +1,25 @@
+FROM ubuntu:latest
+
+RUN apt-get update && apt-get install -y jq openssl curl iputils-ping curl mosquitto-clients
+
+COPY ./subscriber/ /subscriber/
+
+COPY ./ca-certs/ /subscriber/ca-certs/
+
+# Create a directory to store custom certificates
+RUN mkdir -p /usr/local/share/ca-certificates
+
+# Copy the custom certificate to the container
+RUN cp /subscriber/ca-certs/* /usr/local/share/ca-certificates/
+
+RUN apt-get update && apt-get install -y ca-certificates && update-ca-certificates
+
+WORKDIR /subscriber
+
+RUN chmod +x req_crt.sh
+
+RUN chown root:root /subscriber/req_crt.sh
+
+ENTRYPOINT ["/bin/bash", "/subscriber/req_crt.sh"]
+
+

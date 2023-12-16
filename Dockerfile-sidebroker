@@ -1,0 +1,16 @@
+FROM ubuntu:latest
+
+# This is necessary because the mounting volumes comes after the building image in compose.yaml
+COPY ./sidebroker/ /sidebroker
+
+WORKDIR /sidebroker
+
+# Download and install all necessary packages
+RUN apt-get update && apt-get install -y jq openssl curl iputils-ping curl
+
+RUN chmod a+x req_crt.sh
+
+RUN chown root:root /sidebroker/req_crt.sh
+
+ENTRYPOINT ["/bin/bash", "/sidebroker/req_crt.sh"]
+

@@ -65,5 +65,5 @@ Refer to the [official documentation](https://doc.primekey.com/ejbca/tutorials-a
 ## Configuration of Mosquitto
 Mosquitto broker is deployed from the Eclipse Foundation base image.
 Mosquitto broker at startup loads the certificate to be exposed in MQTTS communications, the private key and the certificate of the trusted CA for client authentication from the paths specified in the configuration file.
-Modify the [configuration file](mosquitto/conf/mosquitto.conf) as you prefer.
+Modify the [configuration file](mosquitto/config/mosquitto.conf) as you prefer.
 

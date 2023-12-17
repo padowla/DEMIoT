@@ -12,7 +12,8 @@ The PKI exposes two ports, **8080/tcp** and **8443/tcp**, HTTP and HTTPS, respec
 
 In order for two containers to be able to communicate, they must belong to the same user-defined docker bridge network. In particular, it was decided to allow only client communication to the PKI via the network *access-ejbca-net* and the broker *broker-net* and broker communication with the PKI and clients via the networks *publisher-net* and *subscriber-net*. Any communication between MQTT clients turns out to be segregated at the network level.
 
-## Project directories
+## Project directories <a name="project_directories"></a>
+
 ```
 DEMIoT
 ├── ca-certs
@@ -57,7 +58,8 @@ To create the environment in Docker and run the applications specified in docker
 In order to be able to issue digital certificates, it is necessary to create a user in EJBCA that has permissions to generate new digital certificates. 
 EJBCA offers the possibility of creating users with restricted roles while respecting the principle of least privilege. 
 In this example, however, a user with an Administrator role was created as indicated in the documentation. This user has been associated with a certificate and a private key. 
-The private key and certificate bundle are downloadable in a .p12 file that will be used later to make authenticated requests to the EJBCA REST API.
+The private key and certificate bundle are downloadable in a .p12 file that will be used later to make authenticated requests to the EJBCA REST API (the SuperAdmin.p12 detailed in [Project directories](#project_directories)
+Project directories).
 Refer to the [official documentation](https://doc.primekey.com/ejbca/tutorials-and-guides) for any further details.
 
 

@@ -62,4 +62,8 @@ The private key and certificate bundle are downloadable in a .p12 file that will
 - Enable the REST API [doc](https://doc.primekey.com/ejbca/ejbca-operations/ejbca-ca-concept-guide/protocols/ejbca-rest-interface#:~:text=The%20EJBCA%20Certificate%20Management%20REST,(non%2Dexternal)%20CA.).<br>
 Refer to the [official documentation](https://doc.primekey.com/ejbca/tutorials-and-guides) for any further details.
 
+## Configuration of Mosquitto
+Mosquitto broker is deployed from the Eclipse Foundation base image.
+Mosquitto broker at startup loads the certificate to be exposed in MQTTS communications, the private key and the certificate of the trusted CA for client authentication from the paths specified in the configuration file.
+Modify the [configuration file](mosquitto/conf/mosquitto.conf) as you prefer.
 

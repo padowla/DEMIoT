@@ -55,10 +55,11 @@ DEMIoT
 To create the environment in Docker and run the applications specified in docker compose file, it is only necessary to run the bash script [deploy.sh](deploy.sh).
 
 ## Configuration of EJBCA PKI
-In order to be able to issue digital certificates, it is necessary to create a user in EJBCA that has permissions to generate new digital certificates. 
+- In order to be able to issue digital certificates, it is necessary to create a user in EJBCA that has permissions to generate new digital certificates. 
 EJBCA offers the possibility of creating users with restricted roles while respecting the principle of least privilege. 
 In this example, however, a user with an Administrator role was created as indicated in the documentation. This user has been associated with a certificate and a private key. 
 The private key and certificate bundle are downloadable in a .p12 file that will be used later to make authenticated requests to the EJBCA REST API (the SuperAdmin.p12 detailed in [Project directories](#project_directories).
+- Enable the REST API [doc](https://doc.primekey.com/ejbca/ejbca-operations/ejbca-ca-concept-guide/protocols/ejbca-rest-interface#:~:text=The%20EJBCA%20Certificate%20Management%20REST,(non%2Dexternal)%20CA.)
 Refer to the [official documentation](https://doc.primekey.com/ejbca/tutorials-and-guides) for any further details.
 
 

@@ -4,7 +4,7 @@ A key element of this process is the integration of an Open Source Public Key In
 The primary objective of this initiative is to provide a reliable and secure laboratory environment for the development, testing and practical demonstration of the integration of Mosquitto MQTT as a messaging broker, combined with a rigorous client authentication process based on digital certificates. This implementation provides an in-depth exploration of MQTT's capabilities in an advanced security context, as well as offering a replicable model for real-world operational environments.
 
 ### :warning: Disclaimer
-This is a project developed in the context of my master's thesis in Cybersecurity at the [University of Pisa](https://cybersecuritymaster.it/). <br> :notebook: Within this repository you can find the [thesis](First_Level_Master_Cybersec_Thesis) developed.
+This is a project developed in the context of my master's thesis in Cybersecurity at the [University of Pisa](https://cybersecuritymaster.it/). <br> :notebook: Within this repository you can find the [thesis](First_Level_Master_Cybersec_Thesis.pdf) developed.
 
 ## Architecture
 ![architecture](https://github.com/padowla/DEMIoT/assets/62257411/6c577bf6-ac37-46e5-b8ed-48f6ee324aaa)
